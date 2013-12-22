@@ -12,4 +12,8 @@ defmodule CliTest do
     assert parse_args(["new", "blog_name"]) == { "new", "blog_name" }
   end
 
+  test "one value returned if one givien" do
+    assert parse_args(["build"]) == { "build" }
+  end
+
 end

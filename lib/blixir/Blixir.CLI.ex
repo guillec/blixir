@@ -24,6 +24,8 @@ defmodule Blixir.CLI do
         -> :help
       {_, [ new, blog_name ] , _}
         -> { new, blog_name }
+      {_, [ build ] , _}
+        -> { build }
     end
   end
 
@@ -45,6 +47,14 @@ defmodule Blixir.CLI do
 
   def process({new, blog_name}) do
     Blixir.CreateBlog.process({new, blog_name})
+  end
+
+  @doc """
+  process to handle the build switch.
+  """
+
+  def process({build}) do
+    Blixir.BuildBlog.process
   end
 
 end

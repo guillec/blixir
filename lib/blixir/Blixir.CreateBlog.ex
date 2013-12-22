@@ -5,25 +5,25 @@ defmodule Blixir.CreateBlog do
   """
 
   @index_page_content """
-    --title: Your First Page
-    --end_config
-    <p>
-      All right, You just setup your blog! Now what?<br/>
-      Well there are couple of things you can do, add a new post, create a new page or edit the layout! For more information on this check out the README.
-    </p>
-    <p>
-      The other thing you can do is look at the code and help me make this better. Check out the README on how to contribute.
-    </p>
-    <p>
-      Is Bluag for you? I dont know, but if you are looking to start a blog and don't want to use a annoying CMS you should try this.
-      You should especially try this if you are a Lua developer, since all the code is written in Lua. I hope that with Bluag, 
-      as a developer you can just easily manipulate the content of your post and just over all have more fun.
-    </p>
-    <p>
-      There is a lot more that can be done and I am always looking for feedback. Please if interested help me with this project.
-    </p>
-    <br/>
-    {{posts}}
+  --title: Your First Page
+  --end_config
+  <p>
+    All right, You just setup your blog! Now what?<br/>
+    Well there are couple of things you can do, add a new post, create a new page or edit the layout! For more information on this check out the README.
+  </p>
+  <p>
+    The other thing you can do is look at the code and help me make this better. Check out the README on how to contribute.
+  </p>
+  <p>
+    Is Bluag for you? I dont know, but if you are looking to start a blog and don't want to use a annoying CMS you should try this.
+    You should especially try this if you are a Lua developer, since all the code is written in Lua. I hope that with Bluag, 
+    as a developer you can just easily manipulate the content of your post and just over all have more fun.
+  </p>
+  <p>
+    There is a lot more that can be done and I am always looking for feedback. Please if interested help me with this project.
+  </p>
+  <br/>
+  {{posts}}
   """
 
   @default_layout_content """
@@ -134,40 +134,24 @@ defmodule Blixir.CreateBlog do
   `new` tells application to create a new blog.
   `blog_name` the name of the directory that will contain the source files.
   """
+
   def process({new, blog_name}) do
-    create_dir(blog_name)
-    create_dir(blog_name <> "/_sources")
-    create_dir(blog_name <> "/_pages")
-    create_dir(blog_name <> "/_layouts")
-    create_dir(blog_name <> "/_build/")
-    create_dir(blog_name <> "/_widgets/")
-    create_dir(blog_name <> "/_assets")
-    create_dir(blog_name <> "/_assets/stylesheets")
-    create_dir(blog_name <> "/_assets/images")
+    File.mkdir_p(blog_name)
+    File.mkdir_p(blog_name <> "/_sources")
+    File.mkdir_p(blog_name <> "/_pages")
+    File.mkdir_p(blog_name <> "/_layouts")
+    File.mkdir_p(blog_name <> "/_build/")
+    File.mkdir_p(blog_name <> "/_widgets/")
+    File.mkdir_p(blog_name <> "/_assets")
+    File.mkdir_p(blog_name <> "/_assets/stylesheets")
+    File.mkdir_p(blog_name <> "/_assets/images")
 
-    create_page(blog_name <> "/_pages/index.html", @index_page_content)
-    create_page(blog_name <> "/_layouts/default.html", @default_layout_content)
-    create_page(blog_name <> "/_widgets/recent_posts.html", @recent_posts_content)
-    create_page(blog_name <> "/_widgets/top_menu.html", @top_menu_content)
-    create_page(blog_name <> "/_assets/stylesheets/style.css", @stylesheet_content)
-    create_page(blog_name <> "/_widgets/stylesheets.html", @stylesheet_widget_content)
-    create_page(blog_name <> "/_sources/the_very_first_post.html", @first_post_content)
+    File.write(blog_name <> "/_pages/index.html", @index_page_content)
+    File.write(blog_name <> "/_layouts/default.html", @default_layout_content)
+    File.write(blog_name <> "/_widgets/recent_posts.html", @recent_posts_content)
+    File.write(blog_name <> "/_widgets/top_menu.html", @top_menu_content)
+    File.write(blog_name <> "/_assets/stylesheets/style.css", @stylesheet_content)
+    File.write(blog_name <> "/_widgets/stylesheets.html", @stylesheet_widget_content)
+    File.write(blog_name <> "/_sources/the_very_first_post.html", @first_post_content)
   end
-
-  @doc """
-  `dir_name` name of the new directory to be created
-  """
-
-  def create_dir(dir_name) do
-    File.mkdir_p(dir_name)
-  end
-
-  @doc """
-  `path` path of the new file to be created 
-  `content` content for the new file that will be created 
-  """
-  def create_page(path, content) do
-    File.write(path, content)
-  end
-
 end
