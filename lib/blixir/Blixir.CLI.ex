@@ -4,7 +4,7 @@ defmodule Blixir.CLI do
   Handle the command line parsing and the call to run the application.
   """
 
-  def run(argv) do
+  def main(argv) do
     argv
     |> parse_args
     |> process
