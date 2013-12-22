@@ -27,6 +27,10 @@ defmodule Blixir.CLI do
     end
   end
 
+  @doc """
+  process to handle the help switch.
+  """
+
   def process(:help) do 
     IO.puts """
     blixir new <blog_name> #creates a new blog
@@ -35,6 +39,9 @@ defmodule Blixir.CLI do
     System.halt(0)
   end
 
+  @doc """
+  process to handle the new switch.
+  """
 
   def process({new, blog_name}) do
     Blixir.CreateBlog.process({new, blog_name})

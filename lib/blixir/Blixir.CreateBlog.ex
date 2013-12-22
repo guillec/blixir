@@ -1,7 +1,7 @@
 defmodule Blixir.CreateBlog do
 
   @moduledoc """
-  Handle the command line parsing and the call to run the application.
+  Handle the creation of a new blog.
   """
 
   @index_page_content """
@@ -130,6 +130,10 @@ defmodule Blixir.CreateBlog do
      </p>
   """
 
+  @doc """
+  `new` tells application to create a new blog.
+  `blog_name` the name of the directory that will contain the source files.
+  """
   def process({new, blog_name}) do
     create_dir(blog_name)
     create_dir(blog_name <> "/_sources")
@@ -150,10 +154,18 @@ defmodule Blixir.CreateBlog do
     create_page(blog_name <> "/_sources/the_very_first_post.html", @first_post_content)
   end
 
+  @doc """
+  `dir_name` name of the new directory to be created
+  """
+
   def create_dir(dir_name) do
     File.mkdir_p(dir_name)
   end
 
+  @doc """
+  `path` path of the new file to be created 
+  `content` content for the new file that will be created 
+  """
   def create_page(path, content) do
     File.write(path, content)
   end
