@@ -136,22 +136,21 @@ defmodule Blixir.CreateBlog do
   """
 
   def process({new, blog_name}) do
-    File.mkdir_p(blog_name)
-    File.mkdir_p(blog_name <> "/_sources")
-    File.mkdir_p(blog_name <> "/_pages")
-    File.mkdir_p(blog_name <> "/_layouts")
-    File.mkdir_p(blog_name <> "/_build/")
-    File.mkdir_p(blog_name <> "/_widgets/")
-    File.mkdir_p(blog_name <> "/_assets")
-    File.mkdir_p(blog_name <> "/_assets/stylesheets")
-    File.mkdir_p(blog_name <> "/_assets/images")
+    File.mkdir("_sources")
+    File.mkdir("_pages")
+    File.mkdir("_layouts")
+    File.mkdir("_blog/")
+    File.mkdir("_widgets/")
+    File.mkdir("_assets")
+    File.mkdir("_assets/stylesheets")
+    File.mkdir("_assets/images")
 
-    File.write(blog_name <> "/_pages/index.html", @index_page_content)
-    File.write(blog_name <> "/_layouts/default.html", @default_layout_content)
-    File.write(blog_name <> "/_widgets/recent_posts.html", @recent_posts_content)
-    File.write(blog_name <> "/_widgets/top_menu.html", @top_menu_content)
-    File.write(blog_name <> "/_assets/stylesheets/style.css", @stylesheet_content)
-    File.write(blog_name <> "/_widgets/stylesheets.html", @stylesheet_widget_content)
-    File.write(blog_name <> "/_sources/the_very_first_post.html", @first_post_content)
+    File.write("_pages/index.html", @index_page_content)
+    File.write("_layouts/default.html", @default_layout_content)
+    File.write("_widgets/recent_posts.html", @recent_posts_content)
+    File.write("_widgets/top_menu.html", @top_menu_content)
+    File.write("_assets/stylesheets/style.css", @stylesheet_content)
+    File.write("_widgets/stylesheets.html", @stylesheet_widget_content)
+    File.write("_sources/the_very_first_post.html", @first_post_content)
   end
 end

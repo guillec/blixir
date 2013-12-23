@@ -6,8 +6,8 @@ defmodule BuildBlogTest do
 
   test_with_mock "build_assets", File, [ :passthrough ], [] do
     build_assets
-    assert called File.mkdir_p("_build/assets/")
-    assert called File.copy("_assets/*", "_build/assets/")
+    assert called File.mkdir_p("_blog/assets/")
+    assert called File.cp_r("_assets/.", "_blog/assets")
   end
 
 
