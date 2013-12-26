@@ -72,6 +72,10 @@ defmodule Blixir.BuildBlog do
     end)
   end
 
+  @doc """
+    Create the title of the page based on `string` passed in. Returns title.
+  """
+
   def create_title(string) do
     String.replace(Path.basename(string), ".html", "")
     |> String.replace("_", " ")
