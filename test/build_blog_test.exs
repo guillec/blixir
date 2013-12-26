@@ -32,7 +32,7 @@ defmodule BuildBlogTest do
     content     = "This is content {{recent_posts}}"
     new_content = append_widgets(content)
 
-    assert String.contains?(new_content, "<ul>")
+    assert String.contains?(new_content, "</ul>")
   end
 
   test "write_to_blog" do
