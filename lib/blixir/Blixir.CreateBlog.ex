@@ -35,8 +35,6 @@ defmodule Blixir.CreateBlog do
         <title>
           {{title}}
         </title>
-        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
         {{stylesheets}}
       </head>
       <body>
