@@ -25,7 +25,7 @@ defmodule Blixir.BuildBlog do
     |> Enum.reduce("", fn({file_name, content}, page_feed) -> 
       page_feed <> content
     end)
-    append_to_index(page_feed)
+    |> append_to_index
   end
 
   def append_to_index(content) do
