@@ -110,6 +110,7 @@ defmodule Blixir.CreateBlog do
   """
 
   @stylesheet_widget_content """
+    <link href="http://guillecarlos.com/assets/stylesheets/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/stylesheets/style.css">
   """
 
