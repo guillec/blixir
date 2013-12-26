@@ -8,8 +8,8 @@ defmodule CliTest do
     assert parse_args(["--help", "anything"]) == :help
   end
 
-  test "two values returned if two givien" do
-    assert parse_args(["new", "blog_name"]) == { "new", "blog_name" }
+  test "when `new` is passed" do
+    assert parse_args(["new"]) == { "new" }
   end
 
   test "one value returned if one givien" do

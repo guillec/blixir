@@ -22,10 +22,10 @@ defmodule Blixir.CLI do
     case parse do
       {[help: true], _, _}
         -> :help
-      {_, [ new, blog_name ] , _}
-        -> { new, blog_name }
-      {_, [ build ] , _}
-        -> { build }
+      {_, [ "new" ] , _}
+        -> { "new" }
+      {_, [ "build" ] , _}
+        -> { "build" }
     end
   end
 
@@ -45,15 +45,15 @@ defmodule Blixir.CLI do
   process to handle the new switch.
   """
 
-  def process({new, blog_name}) do
-    Blixir.CreateBlog.process({new, blog_name})
+  def process({"new"}) do
+    Blixir.CreateBlog.process({"new"})
   end
 
   @doc """
   process to handle the build switch.
   """
 
-  def process({build}) do
+  def process({"build"}) do
     Blixir.BuildBlog.process
   end
 

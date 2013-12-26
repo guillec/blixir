@@ -135,7 +135,8 @@ defmodule Blixir.CreateBlog do
   `blog_name` the name of the directory that will contain the source files.
   """
 
-  def process({new, blog_name}) do
+  def process({new}) do
+    IO.puts "Creating a new blog!"
     File.mkdir("_sources")
     File.mkdir("_pages")
     File.mkdir("_layouts")
@@ -152,5 +153,6 @@ defmodule Blixir.CreateBlog do
     File.write("_assets/stylesheets/style.css", @stylesheet_content)
     File.write("_widgets/stylesheets.html", @stylesheet_widget_content)
     File.write("_sources/the_very_first_post.html", @first_post_content)
+    IO.puts "Created!"
   end
 end
