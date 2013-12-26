@@ -52,4 +52,12 @@ defmodule BuildBlogTest do
     File.rm_rf!("test/fake_blog/_blog")
   end
 
+  test "create_title" do
+    title = create_title("the_page_title.html")
+    assert title == "The page title"
+
+    title = create_title("thetitle.html")
+    assert title == "Thetitle"
+  end
+
 end

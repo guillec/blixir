@@ -66,9 +66,16 @@ defmodule Blixir.BuildBlog do
     layout = File.read!("_layouts" <> "/default.html") 
     Stream.map(files_and_content, fn({file_name, content}) -> 
       post_body = replace_keyword(layout, "{{post_body}}", content)
+      post_body = replace_keyword(post_body, "{{title}}", create_title(file_name))
       post_body = append_widgets(post_body)
       { file_name, post_body }
     end)
+  end
+
+  def create_title(string) do
+    String.replace(Path.basename(string), ".html", "")
+    |> String.replace("_", " ")
+    |> String.capitalize
   end
 
   @doc """
