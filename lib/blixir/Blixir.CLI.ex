@@ -35,8 +35,8 @@ defmodule Blixir.CLI do
 
   def process(:help) do 
     IO.puts """
-    blixir new <blog_name> #creates a new blog
-    blixir build           #builds your blog
+    blixir new   #creates a new blog
+    blixir build #builds your blog
     """
     System.halt(0)
   end
