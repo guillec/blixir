@@ -3,3 +3,4 @@
 /blixir_blog
 erl_crash.dump
 *.ez
+*.swp

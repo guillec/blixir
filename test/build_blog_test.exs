@@ -60,4 +60,6 @@ defmodule BuildBlogTest do
     assert title == "Thetitle"
   end
 
+  test "build_index_page" do
+  end
 end

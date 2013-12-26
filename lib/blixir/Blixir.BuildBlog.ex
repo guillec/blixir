@@ -12,8 +12,26 @@ defmodule Blixir.BuildBlog do
   def process do
     IO.puts "Building your blog!"
     build_assets
-    build_posts
+    build_all("_sources")
+    build_all("_pages")
+    build_index_page
     IO.puts "Done!"
+  end
+
+  def build_index_page do
+    page_feed = ""
+    get_list_of_files("_sources")
+    |> read_content_of_files
+    |> Enum.reduce("", fn({file_name, content}, page_feed) -> 
+      page_feed <> content
+    end)
+    append_to_index(page_feed)
+  end
+
+  def append_to_index(content) do
+    { page_status, page_content } = File.read("_blog/index.html")
+    index_page = replace_keyword(page_content, "{{posts}}", content)
+    File.write("_blog/index.html", index_page)
   end
 
   @doc """
@@ -26,11 +44,11 @@ defmodule Blixir.BuildBlog do
   end
 
   @doc """
-  Builds blog posts and ads to _blog directory
+  Builds blog posts and add to _blog directory
   """
 
-  def build_posts do
-    get_list_of_files("_sources")
+  def build_all(files) do
+    get_list_of_files(files)
     |> read_content_of_files
     |> build_post
     |> write_to_blog
