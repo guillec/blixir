@@ -60,6 +60,16 @@ defmodule BuildBlogTest do
     assert title == "Thetitle"
   end
 
-  test "build_index_page" do
+  test "append_to_index" do
+    File.mkdir_p("test/fake_blog/_blog/")
+    content = "<strong>Put this on the index page</strong>"
+
+    append_to_index("test/fake_blog/_blog/", content)
+
+    { status, index_page } = File.read("test/fake_blog/_blog/index.html")
+    assert String.contains?(index_page, content)
+
+
+    File.rm_rf!("test/fake_blog/_blog")
   end
 end

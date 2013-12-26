@@ -28,10 +28,10 @@ defmodule Blixir.BuildBlog do
     |> append_to_index
   end
 
-  def append_to_index(content) do
-    { page_status, page_content } = File.read("_blog/index.html")
+  def append_to_index(write_to // "_blog/", content) do
+    { page_status, page_content } = File.read("_pages/index.html")
     index_page = replace_keyword(page_content, "{{posts}}", content)
-    File.write("_blog/index.html", index_page)
+    write_to_blog(write_to, [{"index.html", index_page}])
   end
 
   @doc """
