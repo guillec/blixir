@@ -13,8 +13,8 @@ defmodule Blixir.CreateBlog do
     The other thing you can do is look at the code and help me make this better. Check out the README on how to contribute.
   </p>
   <p>
-    Is Bluag for you? I dont know, but if you are looking to start a blog and don't want to use a annoying CMS you should try this.
-    You should especially try this if you are a Lua developer, since all the code is written in Lua. I hope that with Bluag, 
+    Is Blixir for you? I dont know, but if you are looking to start a blog and don't want to use a big CMS you should try this.
+    You should especially try this if you are a Elixir developer, since all the code is written in Elixir. I hope that with Blixir, 
     as a developer you can just easily manipulate the content of your post and just over all have more fun.
   </p>
   <p>
