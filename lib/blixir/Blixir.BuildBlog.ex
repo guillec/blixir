@@ -29,7 +29,12 @@ defmodule Blixir.BuildBlog do
   end
 
   def append_to_index(write_to // "_blog/", content) do
-    { page_status, page_content } = File.read("_pages/index.html")
+    if Mix.env == :test do
+      { page_status, page_content } = File.read("test/fake_blog/_sources/index.html")
+    else
+      { page_status, page_content } = File.read("_blog/index.html")
+    end
+
     index_page = replace_keyword(page_content, "{{posts}}", content)
     write_to_blog(write_to, [{"index.html", index_page}])
   end
