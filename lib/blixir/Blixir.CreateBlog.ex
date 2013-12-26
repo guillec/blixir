@@ -5,8 +5,6 @@ defmodule Blixir.CreateBlog do
   """
 
   @index_page_content """
-  --title: Your First Page
-  --end_config
   <p>
     All right, You just setup your blog! Now what?<br/>
     Well there are couple of things you can do, add a new post, create a new page or edit the layout! For more information on this check out the README.
@@ -116,9 +114,6 @@ defmodule Blixir.CreateBlog do
   """
 
   @first_post_content """
-    --title: Your First Blog Post
-    --end_config
-
     <br/>
     <h3>Your First Post</h3>
     <p>This file is found in the <em>_sources</em> directory. If you want to add a new blog post just create a new html file in the <em>_sources</em> directory.</p>
