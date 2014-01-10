@@ -86,8 +86,13 @@ defmodule Blixir.BuildBlog do
   """
 
   def build_post(files_and_content) do
-    layout = File.read!("_layouts" <> "/default.html") 
     Stream.map(files_and_content, fn({file_name, content}) -> 
+
+      { status,  layout } = File.read("_layouts/" <> file_name) 
+      if status != :ok do
+        { status,  layout } = File.read("_layouts/" <> "default.html") 
+      end
+
       post_body = replace_keyword(layout, "{{post_body}}", content)
       post_body = replace_keyword(post_body, "{{title}}", create_title(file_name))
       post_body = append_widgets(post_body)
