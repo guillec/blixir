@@ -40,7 +40,7 @@ defmodule Blixir.BuildBlog do
   end
 
   @doc """
-  Moves assets from root directory to _blog/assets/
+  Copy assets from root/_assets directory to _blog/assets/
   """
 
   def build_assets do
@@ -81,19 +81,29 @@ defmodule Blixir.BuildBlog do
   end
 
   @doc """
+  Append the layout ot the file
+  """
+  def append_layout(file_name, content) do
+      # Is there a layout with the same name as the file?
+      { status,  layout } = File.read("_layouts/" <> file_name) 
+
+      # Use default layout if no other layout is found for page
+      if status != :ok do
+        { status,  layout } = File.read("_layouts/" <> "default.html") 
+      end
+
+      post_body = replace_keyword(layout, "{{post_body}}", content)
+  end
+
+
+  @doc """
   Builds the blog posts by appending the layouts, appending the widgets and setting all configurations.
   Returns a list of { file_name, completed_post }
   """
 
   def build_post(files_and_content) do
     Stream.map(files_and_content, fn({file_name, content}) -> 
-
-      { status,  layout } = File.read("_layouts/" <> file_name) 
-      if status != :ok do
-        { status,  layout } = File.read("_layouts/" <> "default.html") 
-      end
-
-      post_body = replace_keyword(layout, "{{post_body}}", content)
+      post_body = append_layout(file_name, content)
       post_body = replace_keyword(post_body, "{{title}}", create_title(file_name))
       post_body = append_widgets(post_body)
       { file_name, post_body }
@@ -121,6 +131,7 @@ defmodule Blixir.BuildBlog do
     Enum.reduce(widgets_content, new_body, fn({widget_name, widget_content}, new_body) -> 
       keyword  =  String.replace(Path.basename(widget_name), ".html", "")
       new_body = replace_keyword(new_body, "{{" <> keyword <> "}}", widget_content)
+      new_body
     end)
   end
 
