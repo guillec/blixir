@@ -85,7 +85,7 @@ defmodule Blixir.BuildBlog do
   """
   def append_layout(file_name, content) do
       # Is there a layout with the same name as the file?
-      { status,  layout } = File.read("_layouts/" <> file_name) 
+      { status,  layout } = File.read("_layouts/" <> Path.basename(file_name))
 
       # Use default layout if no other layout is found for page
       if status != :ok do
