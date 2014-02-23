@@ -4,7 +4,7 @@ defmodule Blixir.Mixfile do
   def project do
     [ app: :blixir,
       version: "0.0.1",
-      elixir: "~> 0.11.2",
+      elixir: "~> 0.12.4",
       escript_main_module: Blixir.CLI,
       deps: deps ]
   end

@@ -22,6 +22,11 @@ defmodule Blixir.BuildBlog do
     page_feed = ""
     get_list_of_files("_sources")
     |> read_content_of_files
+    |> Enum.map(fn({file_name, content}) ->
+      content = append_post_template(content)
+      content = set_meta_data(content)
+      {file_name, content}
+    end)
     |> Enum.reduce("", fn({file_name, content}, page_feed) -> 
       page_feed <> content
     end)
@@ -32,10 +37,13 @@ defmodule Blixir.BuildBlog do
     if Mix.env == :test do
       { page_status, page_content } = File.read("test/fake_blog/_sources/index.html")
     else
-      { page_status, page_content } = File.read("_blog/index.html")
+      { page_status, page_content } = File.read("_pages/index.html")
+      { page_status, layout_content } = File.read("_layouts/index.html")
     end
 
     index_page = replace_keyword(page_content, "{{posts}}", content)
+    index_page = replace_keyword(layout_content, "{{page_content}}", index_page)
+    index_page = append_widgets(index_page)
     write_to_blog(write_to, [{"index.html", index_page}])
   end
 
@@ -81,7 +89,7 @@ defmodule Blixir.BuildBlog do
   end
 
   @doc """
-  Append the layout ot the file
+  Append the layout to the file
   """
   def append_layout(file_name, content) do
       # Is there a layout with the same name as the file?
@@ -92,9 +100,18 @@ defmodule Blixir.BuildBlog do
         { status,  layout } = File.read("_layouts/" <> "default.html") 
       end
 
-      post_body = replace_keyword(layout, "{{post_body}}", content)
+      post_body = replace_keyword(layout, "{{page_content}}", content)
   end
 
+  @doc """
+  Append the posts layout to the file
+  """
+  def append_post_template(content) do
+      # Use default layout if no other layout is found for page
+      { status,  layout } = File.read("_layouts/post.html") 
+
+      post_body = replace_keyword(layout, "{{post_body}}", content)
+  end
 
   @doc """
   Builds the blog posts by appending the layouts, appending the widgets and setting all configurations.
@@ -103,21 +120,28 @@ defmodule Blixir.BuildBlog do
 
   def build_post(files_and_content) do
     Stream.map(files_and_content, fn({file_name, content}) -> 
-      post_body = append_layout(file_name, content)
-      post_body = replace_keyword(post_body, "{{title}}", create_title(file_name))
+      post_body = append_post_template(content)
+      post_body = append_layout(file_name, post_body)
+      post_body = set_meta_data(post_body)
       post_body = append_widgets(post_body)
       { file_name, post_body }
     end)
   end
 
-  @doc """
-    Create the title of the page based on `string` passed in. Returns title.
-  """
-
-  def create_title(string) do
-    String.replace(Path.basename(string), ".html", "")
-    |> String.replace("_", " ")
-    |> String.capitalize
+  def set_meta_data(post_body) do
+    #Get the meta data keys
+    regex_matches = Regex.scan(%r/#.*:.*$/m, post_body)
+    post_body = Enum.reduce(regex_matches, post_body, fn([x | tail], post_body) -> 
+        if x != nil do
+          [head | tail] = Regex.run(%r/#.*:/f, x) 
+          image_path = replace_keyword(x, head, "")
+          meta_key   = replace_keyword(head, "#", "")
+          meta_key   = replace_keyword(meta_key, ":", "")
+          post_body  = replace_keyword(post_body, "{{" <> meta_key <>"}}", String.strip(image_path))
+          post_body  = replace_keyword(post_body, x, "")
+        end
+        post_body
+    end)
   end
 
   @doc """
