@@ -78,9 +78,17 @@ defmodule Blixir.BuildBlog do
 
   def get_list_of_files(dir) do
     { result, file_names } = File.ls(dir)
-    Enum.map(file_names, fn(file_name) ->
+
+    files = Enum.map(file_names, fn (file_name) ->
       Path.absname(file_name, dir <> "/")
     end)
+
+    Enum.sort(files, fn (file_one, file_two) ->
+      { result_1, stats_1 } = File.stat(file_one)
+      { result_2, stats_2 } = File.stat(file_two)
+      stats_1.ctime > stats_2.ctime
+    end)
+    
   end
 
   @doc """
