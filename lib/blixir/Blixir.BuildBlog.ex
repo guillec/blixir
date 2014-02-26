@@ -24,13 +24,18 @@ defmodule Blixir.BuildBlog do
     |> read_content_of_files
     |> Enum.map(fn({file_name, content}) ->
       content = append_post_template(content)
-      content = set_meta_data(content)
+      content = set_read_more(content)
+      content = set_meta_data(file_name, content)
       {file_name, content}
     end)
     |> Enum.reduce("", fn({file_name, content}, page_feed) -> 
       page_feed <> content
     end)
     |> append_to_index
+  end
+
+  def set_read_more(content) do
+     replace_keyword(content, "{{read_more}}", "<p class='text-align-center'><a href='{{href}}' class='button medium grey'>Continue reading</a></p>")
   end
 
   def append_to_index(write_to // "_blog/", content) do
@@ -122,13 +127,14 @@ defmodule Blixir.BuildBlog do
     Stream.map(files_and_content, fn({file_name, content}) -> 
       post_body = append_post_template(content)
       post_body = append_layout(file_name, post_body)
-      post_body = set_meta_data(post_body)
+      post_body = set_meta_data(file_name, post_body)
       post_body = append_widgets(post_body)
+      post_body = replace_keyword(post_body, "{{read_more}}", "")
       { file_name, post_body }
     end)
   end
 
-  def set_meta_data(post_body) do
+  def set_meta_data(file_name, post_body) do
     #Get the meta data keys
     regex_matches = Regex.scan(%r/#.*:.*$/m, post_body)
     post_body = Enum.reduce(regex_matches, post_body, fn([x | tail], post_body) -> 
@@ -138,7 +144,10 @@ defmodule Blixir.BuildBlog do
           meta_key   = replace_keyword(head, "#", "")
           meta_key   = replace_keyword(meta_key, ":", "")
           post_body  = replace_keyword(post_body, "{{" <> meta_key <>"}}", String.strip(image_path))
+
+          #set the href to the page
           post_body  = replace_keyword(post_body, x, "")
+          post_body  = replace_keyword(post_body, "{{href}}", Path.basename(file_name))
         end
         post_body
     end)
