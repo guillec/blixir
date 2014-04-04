@@ -35,7 +35,7 @@ defmodule Blixir.BuildBlog do
   end
 
   def set_read_more(content) do
-     replace_keyword(content, "{{read_more}}", "<p class='text-align-center'><a href='{{href}}' class='button medium grey'>Continue reading</a></p>")
+     replace_keyword(content, "{{read_more}}", "<p class='text-align-center'><a href='{{href}}' class='button medium grey'>Comment</a></p>")
   end
 
   def append_to_index(write_to // "_blog/", content) do
