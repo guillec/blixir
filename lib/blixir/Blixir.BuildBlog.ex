@@ -144,10 +144,10 @@ defmodule Blixir.BuildBlog do
 
   def set_meta_data(file_name, post_body) do
     #Get the meta data keys
-    regex_matches = Regex.scan(%r/#.*:.*$/m, post_body)
+    regex_matches = Regex.scan(~r/#.*:.*$/m, post_body)
     post_body = Enum.reduce(regex_matches, post_body, fn([x | tail], post_body) -> 
         if x != nil do
-          [head | tail] = Regex.run(%r/#.*:/f, x) 
+          [head | tail] = Regex.run(~r/#.*:/f, x) 
           image_path = replace_keyword(x, head, "")
           meta_key   = replace_keyword(head, "#", "")
           meta_key   = replace_keyword(meta_key, ":", "")
