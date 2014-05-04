@@ -38,7 +38,7 @@ defmodule Blixir.BuildBlog do
      replace_keyword(content, "{{read_more}}", "<p class='text-align-center'><a href='{{href}}' class='button medium grey'>Comment</a></p>")
   end
 
-  def append_to_index(write_to // "_blog/", content) do
+  def append_to_index(write_to \\ "_blog/", content) do
     if Mix.env == :test do
       { page_status, page_content } = File.read("test/fake_blog/_sources/index.html")
     else
@@ -191,7 +191,7 @@ defmodule Blixir.BuildBlog do
   Creates a file in `write_to // _blog`.
   """
 
-  def write_to_blog(write_to // "_blog/", files_and_content) do
+  def write_to_blog(write_to \\ "_blog/", files_and_content) do
     Enum.map(files_and_content, fn({file_name, content}) ->  
       File.write(write_to <> Path.basename(file_name), content) 
     end)
