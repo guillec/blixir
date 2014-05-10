@@ -56,6 +56,14 @@ defmodule Blixir.CreateBlog do
     </html>
   """
 
+  @post_layout_content """
+    {{post_body}}
+  """
+
+  @index_layout_content """
+    {{page_content}}
+  """
+
   @recent_posts_content """
     <ul class="unstyled" style="padding-top: 10px;">
       <li style="border-bottom: solid 1px #999999; padding: 7px 0px;">
@@ -142,6 +150,8 @@ defmodule Blixir.CreateBlog do
 
     File.write("_pages/index.html", @index_page_content)
     File.write("_layouts/default.html", @default_layout_content)
+    File.write("_layouts/post.html", @post_layout_content)
+    File.write("_layouts/index.html", @index_layout_content)
     File.write("_widgets/recent_posts.html", @recent_posts_content)
     File.write("_widgets/top_menu.html", @top_menu_content)
     File.write("_assets/stylesheets/style.css", @stylesheet_content)
