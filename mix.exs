@@ -4,7 +4,7 @@ defmodule Blixir.Mixfile do
   def project do
     [ app: :blixir,
       version: "0.0.1",
-      elixir: "~> 0.12.4",
+      elixir: "~> 0.13.1",
       escript_main_module: Blixir.CLI,
       deps: deps ]
   end
@@ -19,9 +19,14 @@ defmodule Blixir.Mixfile do
   #
   # To specify particular versions, regardless of the tag, do:
   # { :barbat, "~> 0.1", github: "elixir-lang/barbat.git" }
+
+
+
+
+  # Need to add mocks for my test but its not working at the moment
+  # {:mock, "~> 0.0.3", github: "jjh42/mock"}
   defp deps do
     [ 
-      {:mock, github: "jjh42/mock"}
     ]
   end
 end
