@@ -1,15 +1,15 @@
 defmodule BuildBlogTest do
   use ExUnit.Case
 
-  import Mock
+  #import Mock
   import Blixir.BuildBlog
 
-  test_with_mock "build_assets", File, [ :passthrough ], [] do
-    build_assets
+  #test_with_mock "build_assets", File, [ :passthrough ], [] do
+  #  build_assets
 
-    assert called File.mkdir_p("_blog/assets/")
-    assert called File.cp_r("_assets/.", "_blog/assets")
-  end
+  #  assert called File.mkdir_p("_blog/assets/")
+  #  assert called File.cp_r("_assets/.", "_blog/assets")
+  #end
 
   test "get_list_of_files" do
     list_of_files = get_list_of_files("test/fake_blog/_sources/")
@@ -52,24 +52,24 @@ defmodule BuildBlogTest do
     File.rm_rf!("test/fake_blog/_blog")
   end
 
-  test "create_title" do
-    title = create_title("the_page_title.html")
-    assert title == "The page title"
+  #test "create_title" do
+  #  title = create_title("the_page_title.html")
+  #  assert title == "The page title"
 
-    title = create_title("thetitle.html")
-    assert title == "Thetitle"
-  end
+  #  title = create_title("thetitle.html")
+  #  assert title == "Thetitle"
+  #end
 
-  test "append_to_index" do
-    File.mkdir_p("test/fake_blog/_blog/")
-    content = "<strong>Put this on the index page</strong>"
+  #test "append_to_index" do
+  #  File.mkdir_p("test/fake_blog/_blog/")
+  #  content = "<strong>Put this on the index page</strong>"
 
-    append_to_index("test/fake_blog/_blog/", content)
+  #  append_to_index("test/fake_blog/_blog/", content)
 
-    { status, index_page } = File.read("test/fake_blog/_blog/index.html")
-    assert String.contains?(index_page, content)
+  #  { status, index_page } = File.read("test/fake_blog/_blog/index.html")
+  #  assert String.contains?(index_page, content)
 
 
-    File.rm_rf!("test/fake_blog/_blog")
-  end
+  #  File.rm_rf!("test/fake_blog/_blog")
+  #end
 end
