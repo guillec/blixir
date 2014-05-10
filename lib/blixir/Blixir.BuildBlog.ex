@@ -78,17 +78,22 @@ defmodule Blixir.BuildBlog do
 
   def get_list_of_files(dir) do
     { result, file_names } = File.ls(dir)
+    get_absname(file_names, dir)
+    |> sort_by_ctime
+  end
 
-    files = Enum.map(file_names, fn (file_name) ->
+  def get_absname(file_names, dir) do 
+    Enum.map(file_names, fn (file_name) ->
       Path.absname(file_name, dir <> "/")
     end)
+  end
 
+  def sort_by_ctime(files) do
     Enum.sort(files, fn (file_one, file_two) ->
       { result_1, stats_1 } = File.stat(file_one)
       { result_2, stats_2 } = File.stat(file_two)
       stats_1.ctime > stats_2.ctime
     end)
-    
   end
 
   @doc """
@@ -113,7 +118,7 @@ defmodule Blixir.BuildBlog do
         { status,  layout } = File.read("_layouts/" <> "default.html") 
       end
 
-      post_body = replace_keyword(layout, "{{page_content}}", content)
+      replace_keyword(layout, "{{page_content}}", content)
   end
 
   @doc """
